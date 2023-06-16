@@ -1,0 +1,383 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>load_exercise_data</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-10-24"><meta name="DC.source" content="load_exercise_data.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content">
+  
+  <h2>Overview</h2>
+<p>This data set contains accelerometer and gyroscope recordings from over 200 participants performing various gym exercises.</p>
+
+<p>This data set is described in more detail in the associated manuscript: Morris, D., Saponas, T. S., Guillory, A., & Kelner, I. (2014, April). RecoFit: using a wearable sensor to find, recognize, and count repetitive exercises. In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (pp. 3225-3234). ACM.</p>
+
+<p>Contact <a href="mailto:ssaponas@microsoft.com">ssaponas@microsoft.com</a> if you have questions about this data set.</p>
+
+<p>The remainder of this document presents the contents of load_exercise_data.m, a Matlab script that walks you through the format of the data.</p>
+  
+  <h2>Contents</h2><div><ul><li><a href="#1">Constants and environment</a></li><li><a href="#2">Load data... this will take a couple minutes; it's about 2.5GB</a></li><li><a href="#3">Find the column for a particular exercise we want to look at</a></li><li><a href="#4">This matrix has one row per person, one column per exercise</a></li><li><a href="#5">Now let's look at one instance of this particular subject doing this particular exercise</a></li><li><a href="#6">Now let's play around with the multi-activity data</a></li></ul></div><h2 id="1">Constants and environment</h2><pre class="codeinput"><span class="comment">%#ok&lt;*NBRAK&gt;</span>
+dataBaseDir = <span class="string">'D:\temp\exercise_data_release'</span>;
+
+<span class="comment">% This file has *only* data during exercises, already separated out by exercise.</span>
+<span class="comment">% The "singleonly" in the filename means that it only contains "single-activity" traces.</span>
+<span class="comment">% So this is useful for the "which exercise?" (recognition) and counting problems, not for</span>
+<span class="comment">% the "when is there exercise?" problem.</span>
+dataFileSingleActivity = fullfile(dataBaseDir,<span class="string">'exercise_data.50.0000_singleonly.mat'</span>);
+
+<span class="comment">% This file has data from complete exercise sessions, so it includes lots of time</span>
+<span class="comment">% where there's no execise happening.  The "multionly" in the filename means that it</span>
+<span class="comment">% only contains "multi-activity" traces.  So this is useful for the "when are you</span>
+<span class="comment">% exercising?"  problem (segmentation).</span>
+dataFileMultiActivity = fullfile(dataBaseDir,<span class="string">'exercise_data.50.0000_multionly.mat'</span>);
+
+<span class="comment">% We separate these into two files to make it a little easier to work on</span>
+<span class="comment">% one problem or the other.  You can completely reconstruct the</span>
+<span class="comment">% "single-activity" file *from* the "multi-activity" file, because it also</span>
+<span class="comment">% includes all the times at which each exercise started and stopped.</span>
+
+<span class="comment">% In this file, we're going to play around with data from a particular</span>
+<span class="comment">% subject doing a particular exercise.  Not every subject did every</span>
+<span class="comment">% exercise; I'm picking a combination that I happen to know isn't empty.</span>
+<span class="comment">% In fact I'm also picking a subject that I happen to know participated</span>
+<span class="comment">% more than once.</span>
+iSubject = 52;
+exerciseName = <span class="string">'Two-arm Dumbbell Curl (both arms, not alternating)'</span>;
+</pre><h2 id="2">Load data... this will take a couple minutes; it's about 2.5GB</h2><pre class="codeinput">fprintf(1,<span class="string">'Loading single-activity data...\n'</span>);
+exerciseDataSingleActivity = load(dataFileSingleActivity);
+
+fprintf(1,<span class="string">'Loading multi-activity data...\n'</span>);
+exerciseDataMultiActivity = load(dataFileMultiActivity);
+
+fprintf(1,<span class="string">'Finished loading data\n'</span>);
+
+<span class="comment">% Both of these files have similar formats format... the data lives in a cell</span>
+<span class="comment">% matrix called "subject_data", where each row is a subject, and each column</span>
+<span class="comment">% is a type of exercise.</span>
+<span class="comment">%</span>
+<span class="comment">% In the "multi-activity" data, there's only one column, since we haven't separated</span>
+<span class="comment">% data out into exercises yet.</span>
+
+<span class="comment">% The column names for the single-activity data are here:</span>
+activities = exerciseDataSingleActivity.exerciseConstants.activities';
+nActivityTypes = length(activities);
+
+<span class="comment">% Sanity-check our data matrices</span>
+assert(nActivityTypes == size(exerciseDataSingleActivity.subject_data,2));
+
+assert(1 == size(exerciseDataMultiActivity.subject_data,2));
+
+<span class="comment">% Both files should have the same number of subjects</span>
+nParticipants = size(exerciseDataSingleActivity.subject_data,1);
+assert(nParticipants == size(exerciseDataMultiActivity.subject_data,1));
+</pre><pre class="codeoutput">Loading single-activity data...
+Loading multi-activity data...
+Finished loading data
+</pre><h2 id="3">Find the column for a particular exercise we want to look at</h2><pre class="codeinput">exerciseIndex = find(strcmp(exerciseDataSingleActivity.exerciseConstants.activities,<span class="keyword">...</span>
+    exerciseName));
+</pre><h2 id="4">This matrix has one row per person, one column per exercise</h2><pre class="codeinput"><span class="comment">% Any given cell in "subject_data" is a struct array, with one element for</span>
+<span class="comment">% each time that subject (this row) performed that exercise (this column)</span>
+<span class="comment">%</span>
+<span class="comment">% So for example, the following cell contains a struct array, with one element per</span>
+<span class="comment">% record, of every time this subject came in to our lab and did the exercise we picked</span>
+<span class="comment">% above, which may span multiple visits.</span>
+recordings = exerciseDataSingleActivity.subject_data{iSubject,exerciseIndex};
+
+<span class="comment">% How many times did this subject do this particular exercise?</span>
+nRecordings = length(recordings);
+</pre><h2 id="5">Now let's look at one instance of this particular subject doing this particular exercise</h2><pre class="codeinput"><span class="comment">% Arbitrarily grab the first instance to plot</span>
+recording = recordings(1);
+assert(strcmp(recording.activityName,exerciseName));
+
+<span class="comment">% Plot the raw accelerometer and gyro data (at 50Hz)</span>
+accelT = recording.data.accelDataMatrix(:,1);
+accelXYZ = recording.data.accelDataMatrix(:,[2:4]);
+gyroT = recording.data.gyroDataMatrix(:,1);
+gyroXYZ = recording.data.gyroDataMatrix(:,[2:4]);
+
+subplot(2,1,1);
+plot(accelT,accelXYZ);
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Accelerometer output (g)'</span>);
+legend({<span class="string">'X'</span>,<span class="string">'Y'</span>,<span class="string">'Z'</span>});
+
+subplot(2,1,2);
+plot(gyroT,gyroXYZ);
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Gyro output (dps)'</span>);
+legend({<span class="string">'X'</span>,<span class="string">'Y'</span>,<span class="string">'Z'</span>});
+</pre><img vspace="5" hspace="5" src="load_exercise_data_01.png" alt=""> <h2 id="6">Now let's play around with the multi-activity data</h2><pre class="codeinput"><span class="comment">% Remember, in this file, we haven't separated out the periods of exercise</span>
+<span class="comment">% and non-exercise, everything is one big long trace per subject, with</span>
+<span class="comment">% labels to tell us where exercises started and stopped.</span>
+
+recordings = exerciseDataMultiActivity.subject_data{iSubject,1};
+
+<span class="comment">% Each instance here represents a visit to our lab</span>
+nVisits = length(recordings);
+
+<span class="comment">% Arbitrarily grab the first visit</span>
+recording = recordings(1);
+
+<span class="comment">% This is a cell matrix that tells us when exercises started and stopped,</span>
+<span class="comment">% and how many repetitions the subject did for each exercise.  The columns</span>
+<span class="comment">% are:</span>
+<span class="comment">%</span>
+<span class="comment">% [exercise name],[start time],[end time],[notes],[number of repetitions]</span>
+
+<span class="comment">% So let's plot this subject's accelerometer data (just one axis, so the plot</span>
+<span class="comment">% doesn't get too complex), with vertical lines to indicate where exercises</span>
+<span class="comment">% started, with labels for each exercise.</span>
+nActivities = size(recording.activityStartMatrix,1);
+
+accelT = recording.data.accelDataMatrix(:,1);
+accelZ = recording.data.accelDataMatrix(:,4);
+
+plot(accelT,accelZ);
+hold <span class="string">on</span>;
+xlabel(<span class="string">'Time (seconds)'</span>);
+ylabel(<span class="string">'Accelerometer output (g)'</span>);
+
+<span class="keyword">for</span>(iActivity=1:nActivities)
+    activityName = recording.activityStartMatrix{iActivity,1};
+    <span class="keyword">if</span> (strcmpi(activityName,<span class="string">'non-exercise'</span>))
+        <span class="keyword">continue</span>;
+    <span class="keyword">end</span>
+    activityCount = recording.activityStartMatrix{iActivity,5};
+    activityStartTime = recording.activityStartMatrix{iActivity,2};
+    activityEndTime = recording.activityStartMatrix{iActivity,3};
+    lineHandle = line([activityStartTime activityStartTime],[-0.5 0.5]);
+    lineHandle.Color = [0 1 0];
+    lineHandle = line([activityEndTime activityEndTime],[-0.5 0.5]);
+    lineHandle.Color = [1 0 0];
+    yValue = -0.5 + rand();
+    tHandle = text(activityStartTime,yValue,sprintf(<span class="string">'%s x %d'</span>,activityName,activityCount));
+    tHandle.Rotation = 45;
+<span class="keyword">end</span> <span class="comment">% ...for each activity</span>
+
+hold <span class="string">off</span>; zoom <span class="string">on</span>;
+xlim([100 300])
+</pre><img vspace="5" hspace="5" src="load_exercise_data_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Constants and environment
+
+%#ok<*NBRAK>
+dataBaseDir = 'D:\temp\exercise_data_release';
+
+% This file has *only* data during exercises, already separated out by exercise.  
+% The "singleonly" in the filename means that it only contains "single-activity" traces.
+% So this is useful for the "which exercise?" (recognition) and counting problems, not for 
+% the "when is there exercise?" problem.
+dataFileSingleActivity = fullfile(dataBaseDir,'exercise_data.50.0000_singleonly.mat');
+
+% This file has data from complete exercise sessions, so it includes lots of time
+% where there's no execise happening.  The "multionly" in the filename means that it 
+% only contains "multi-activity" traces.  So this is useful for the "when are you 
+% exercising?"  problem (segmentation).
+dataFileMultiActivity = fullfile(dataBaseDir,'exercise_data.50.0000_multionly.mat');
+
+% We separate these into two files to make it a little easier to work on
+% one problem or the other.  You can completely reconstruct the
+% "single-activity" file *from* the "multi-activity" file, because it also
+% includes all the times at which each exercise started and stopped.
+
+% In this file, we're going to play around with data from a particular 
+% subject doing a particular exercise.  Not every subject did every
+% exercise; I'm picking a combination that I happen to know isn't empty.
+% In fact I'm also picking a subject that I happen to know participated 
+% more than once.
+iSubject = 52;
+exerciseName = 'Two-arm Dumbbell Curl (both arms, not alternating)';
+
+
+%% Load data... this will take a couple minutes; it's about 2.5GB
+
+fprintf(1,'Loading single-activity data...\n');
+exerciseDataSingleActivity = load(dataFileSingleActivity);
+
+fprintf(1,'Loading multi-activity data...\n');
+exerciseDataMultiActivity = load(dataFileMultiActivity);
+
+fprintf(1,'Finished loading data\n');
+
+% Both of these files have similar formats format... the data lives in a cell
+% matrix called "subject_data", where each row is a subject, and each column
+% is a type of exercise.  
+%
+% In the "multi-activity" data, there's only one column, since we haven't separated
+% data out into exercises yet.
+
+% The column names for the single-activity data are here:
+activities = exerciseDataSingleActivity.exerciseConstants.activities';
+nActivityTypes = length(activities);
+
+% Sanity-check our data matrices
+assert(nActivityTypes == size(exerciseDataSingleActivity.subject_data,2));
+
+assert(1 == size(exerciseDataMultiActivity.subject_data,2));
+
+% Both files should have the same number of subjects
+nParticipants = size(exerciseDataSingleActivity.subject_data,1);
+assert(nParticipants == size(exerciseDataMultiActivity.subject_data,1));
+
+
+%% Find the column for a particular exercise we want to look at
+
+exerciseIndex = find(strcmp(exerciseDataSingleActivity.exerciseConstants.activities,...
+    exerciseName));
+
+
+%% This matrix has one row per person, one column per exercise
+
+% Any given cell in "subject_data" is a struct array, with one element for
+% each time that subject (this row) performed that exercise (this column)
+%
+% So for example, the following cell contains a struct array, with one element per 
+% record, of every time this subject came in to our lab and did the exercise we picked 
+% above, which may span multiple visits.
+recordings = exerciseDataSingleActivity.subject_data{iSubject,exerciseIndex};
+
+% How many times did this subject do this particular exercise?
+nRecordings = length(recordings);
+
+
+%% Now let's look at one instance of this particular subject doing this particular exercise
+
+% Arbitrarily grab the first instance to plot
+recording = recordings(1);
+assert(strcmp(recording.activityName,exerciseName));
+
+% Plot the raw accelerometer and gyro data (at 50Hz)
+accelT = recording.data.accelDataMatrix(:,1);
+accelXYZ = recording.data.accelDataMatrix(:,[2:4]);
+gyroT = recording.data.gyroDataMatrix(:,1);
+gyroXYZ = recording.data.gyroDataMatrix(:,[2:4]);
+
+subplot(2,1,1);
+plot(accelT,accelXYZ);
+xlabel('Time (seconds)');
+ylabel('Accelerometer output (g)');
+legend({'X','Y','Z'});
+
+subplot(2,1,2);
+plot(gyroT,gyroXYZ);
+xlabel('Time (seconds)');
+ylabel('Gyro output (dps)');
+legend({'X','Y','Z'});
+
+
+%% Now let's play around with the multi-activity data
+
+% Remember, in this file, we haven't separated out the periods of exercise
+% and non-exercise, everything is one big long trace per subject, with
+% labels to tell us where exercises started and stopped.
+
+recordings = exerciseDataMultiActivity.subject_data{iSubject,1};
+
+% Each instance here represents a visit to our lab
+nVisits = length(recordings);
+
+% Arbitrarily grab the first visit
+recording = recordings(1);
+
+% This is a cell matrix that tells us when exercises started and stopped,
+% and how many repetitions the subject did for each exercise.  The columns 
+% are:
+%
+% [exercise name],[start time],[end time],[notes],[number of repetitions]
+
+% So let's plot this subject's accelerometer data (just one axis, so the plot
+% doesn't get too complex), with vertical lines to indicate where exercises
+% started, with labels for each exercise.
+nActivities = size(recording.activityStartMatrix,1);
+
+accelT = recording.data.accelDataMatrix(:,1);
+accelZ = recording.data.accelDataMatrix(:,4);
+
+plot(accelT,accelZ);
+hold on;
+xlabel('Time (seconds)');
+ylabel('Accelerometer output (g)');
+
+for(iActivity=1:nActivities)
+    activityName = recording.activityStartMatrix{iActivity,1};
+    if (strcmpi(activityName,'non-exercise'))
+        continue;
+    end
+    activityCount = recording.activityStartMatrix{iActivity,5};
+    activityStartTime = recording.activityStartMatrix{iActivity,2};
+    activityEndTime = recording.activityStartMatrix{iActivity,3};
+    lineHandle = line([activityStartTime activityStartTime],[-0.5 0.5]);
+    lineHandle.Color = [0 1 0];
+    lineHandle = line([activityEndTime activityEndTime],[-0.5 0.5]);
+    lineHandle.Color = [1 0 0];
+    yValue = -0.5 + rand();
+    tHandle = text(activityStartTime,yValue,sprintf('%s x %d',activityName,activityCount));    
+    tHandle.Rotation = 45;
+end % ...for each activity
+
+hold off; zoom on;
+xlim([100 300])
+
+##### SOURCE END #####
+--></body></html>
